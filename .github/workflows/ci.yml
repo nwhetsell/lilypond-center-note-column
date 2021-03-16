@@ -19,7 +19,14 @@ jobs:
 
     - name: Create PDFs
       run: |
-        lilypond --output=test-${{ matrix.lilypond-version }} center-note-column.ly
+        touch include-settings.ily
+        if [ ${{ matrix.lilypond-version }} = 2.22.0 ]; then
+          cat <<EOS >> include-settings.ily
+        #(define fermataMarkup #{ \fermata #})
+        EOS
+        fi
+        lilypond --define-default=include-settings=include-settings.ily --output=test-${{ matrix.lilypond-version }} center-note-column.ly
+        rm include-settings.ily
 
     - name: Archive PDFs
       uses: actions/upload-artifact@v2
