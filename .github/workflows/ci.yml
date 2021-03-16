@@ -25,7 +25,7 @@ jobs:
         #(define fermataMarkup #{ \fermata #})
         EOS
         fi
-        lilypond --define-default=include-settings=include-settings.ily --output=test-${{ matrix.lilypond-version }} center-note-column.ly
+        lilypond --define-default=include-settings=include-settings.ily --output=test-${{ matrix.lilypond-version }} test.ly
         rm include-settings.ily
 
     - name: Archive PDFs
