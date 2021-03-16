@@ -67,10 +67,10 @@
             (rest (ly:grob-object grob 'rest))
       ;; Grobs to center between
             (args (list 'BarLine
-             	        'Clef
-             	        'KeySignature
-             	        'KeyCancellation
-             	        'TimeSignature))
+                        'Clef
+                        'KeySignature
+                        'KeyCancellation
+                        'TimeSignature))
             (grob-lst (read-out args elements-lst '() grob-name))
             (new-grob-lst (remove (lambda (x) (interval-empty? (X-extent x))) grob-lst))
             (sorted-grob-lst (sort-by-X-coord sys new-grob-lst))
