@@ -2,7 +2,7 @@
 
 #(set-global-staff-size 20)
 
-\include "center-note-column.ly"
+\include "center-note-column.ily"
 
 \paper {
         ragged-right = ##f
