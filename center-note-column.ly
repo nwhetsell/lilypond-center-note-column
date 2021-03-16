@@ -116,6 +116,9 @@ onceCenterNoteColumn =
 
 %------------ Test
 
+#(if (ly:version? >= '(2 22))
+  (define fermataMarkup #{ \fermata #}))
+
 \paper {
         ragged-right = ##f
 }
