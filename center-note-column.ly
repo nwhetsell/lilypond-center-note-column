@@ -3,19 +3,19 @@
 % Thanks to David Nalesnik
 
 #(set-global-staff-size 20)
- 
+
 #(define (sort-by-X-coord sys grob-lst)
 "Arranges a list of grobs in ascending order by their X-coordinates"
    (let* ((X-coord (lambda (x) (ly:grob-relative-coordinate x sys X)))
           (comparator (lambda (p q) (< (X-coord p) (X-coord q)))))
-          
+
      (sort grob-lst comparator)))
-    
+
 #(define (find-bounding-grobs note-column grob-lst)
    (let* ((sys (ly:grob-system note-column))
           (X-coord (lambda (n) (ly:grob-relative-coordinate n sys X)))
           (note-column-X (X-coord note-column)))
-    
+
       (define (helper lst)
         (if (and (< (X-coord (car lst)) note-column-X)
                  (> (X-coord (cadr lst)) note-column-X))
@@ -23,8 +23,8 @@
             (if (null? (cddr lst))
                 (cons note-column note-column)
                 (helper (cdr lst)))))
-                
-      (helper grob-lst)))        
+
+      (helper grob-lst)))
 
 #(define (read-out ls1 ls2 ls3 symbol)
 "Filters all elements of ls1 from ls2 and appends it to ls3"
@@ -32,7 +32,7 @@
   (if (null? (cdr ls1))
       ls3
       (read-out (cdr ls1) ls2 ls3 symbol)))
-      
+
 #(define ((center-note-column x-offs) grob)
      (let* ((sys (ly:grob-system grob))
             (elements-lst (ly:grob-array->list (ly:grob-object sys 'all-elements)))
@@ -66,19 +66,19 @@
       ;; Rest
             (rest (ly:grob-object grob 'rest))
       ;; Grobs to center between
-            (args (list 'BarLine 
-             	        'Clef 
+            (args (list 'BarLine
+             	        'Clef
              	        'KeySignature
              	        'KeyCancellation
              	        'TimeSignature))
-            (grob-lst (read-out args elements-lst '() grob-name)) 
+            (grob-lst (read-out args elements-lst '() grob-name))
             (new-grob-lst (remove (lambda (x) (interval-empty? (X-extent x))) grob-lst))
             (sorted-grob-lst (sort-by-X-coord sys new-grob-lst))
       ;; Bounds
             (bounds (find-bounding-grobs grob sorted-grob-lst))
             (left (cdr (X-extent (car bounds))))
             (right (car (X-extent (cdr bounds))))
-            
+
             (basic-offset
               (- (average left right)
                  (interval-center (X-extent grob))
@@ -89,7 +89,7 @@
                   0))
 
             ) ;; End of Defs in let*
-         
+
    ;; Calculation
    (begin
      (for-each
