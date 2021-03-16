@@ -111,7 +111,7 @@ centerNoteColumnOff = \revert Staff.NoteColumn #'after-line-breaking
 onceCenterNoteColumn =
 #(define-music-function (parser location x-offs)(number?)
 #{
-        \once \override Staff.NoteColumn #'after-line-breaking = #(center-note-column $x-offs)
+        \once \override Staff.NoteColumn #'after-line-breaking = #(center-note-column x-offs)
 #})
 
 %------------ Test
