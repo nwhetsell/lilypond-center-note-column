@@ -100,12 +100,11 @@
           dot-column accidental-placement arpeggio rest))
   )))
 
-centerNoteColumnOn = \override Staff.NoteColumn #'after-line-breaking = #(center-note-column 0)
+#(define centerNoteColumnOn #{ \override Staff.NoteColumn #'after-line-breaking = #(center-note-column 0) #})
 
-centerNoteColumnOff = \revert Staff.NoteColumn #'after-line-breaking
+#(define centerNoteColumnOff #{ \revert Staff.NoteColumn #'after-line-breaking #})
 
-onceCenterNoteColumn =
-#(define-music-function (parser location x-offs)(number?)
+#(define onceCenterNoteColumn (define-music-function (parser location x-offs)(number?)
 #{
         \once \override Staff.NoteColumn #'after-line-breaking = #(center-note-column x-offs)
-#})
+#}))
