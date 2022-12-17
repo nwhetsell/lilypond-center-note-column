@@ -108,5 +108,6 @@
 
 #(define onceCenterNoteColumn (define-music-function (parser location x-offs)(number?)
 #{
+        #(ly:expect-warning "deprecated: missing `.' in property path Staff.NoteColumn.after-line-breaking")
         \once \override Staff.NoteColumn #'after-line-breaking = #(center-note-column x-offs)
 #}))
