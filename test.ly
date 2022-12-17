@@ -27,8 +27,8 @@
         %indent = 0
     \context {
       \Score
-      \override NonMusicalPaperColumn.line-break-permission = ##f
-      \override BarNumber.break-visibility = #'#(#t #t #t)
+      \override NonMusicalPaperColumn #'line-break-permission = ##f
+      \override BarNumber #'break-visibility = #'#(#t #t #t)
     }
     \context {
       \Staff
@@ -94,7 +94,7 @@ pUp = \relative c' {
 
         <d, fis b>2.\pp  (
         \centerNoteColumnOn
-        \once \override Score.Arpeggio.padding = #-1.5
+        \once \override Score.Arpeggio #'padding = #-1.5
         \set Score.connectArpeggios = ##t
         <fis ais>\arpeggio
         <fis d'!>
