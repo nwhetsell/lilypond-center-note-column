@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  lilypond-2.24-and-later:
+  lilypond-2_24-and-later:
     name: LilyPond 2.24 and later
     runs-on: ubuntu-latest
     strategy:
@@ -28,7 +28,7 @@ jobs:
         name: ${{ runner.os }} artifacts
         path: '*.pdf'
 
-  lilypond-2.22-and-earlier:
+  lilypond-2_22-and-earlier:
     name: LilyPond 2.22 and earlier
     runs-on: ubuntu-latest
     strategy:
