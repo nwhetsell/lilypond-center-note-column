@@ -3,14 +3,40 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  Linux:
+  lilypond-2.24-and-later:
+    name: LilyPond 2.24 and later
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        lilypond-version: [2.22.1, 2.20.0, 2.18.0, 2.16.0]
+        lilypond-version: [2.24.0]
     steps:
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - name: Download LilyPond
+      run: |
+        wget --no-verbose https://gitlab.com/lilypond/lilypond/-/releases/v${{ matrix.lilypond-version }}/downloads/lilypond-${{ matrix.lilypond-version }}-linux-x86_64.tar.gz
+        tar -xf lilypond-${{ matrix.lilypond-version }}-linux-x86_64.tar.gz
+
+    - name: Create PDFs
+      run: |
+        lilypond-${{ matrix.lilypond-version }}/bin/lilypond --output=test-${{ matrix.lilypond-version }} test.ly
+
+    - name: Archive PDFs
+      uses: actions/upload-artifact@main
+      with:
+        name: ${{ runner.os }} artifacts
+        path: '*.pdf'
+
+  lilypond-2.22-and-earlier:
+    name: LilyPond 2.22 and earlier
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lilypond-version: [2.22.2, 2.20.0, 2.18.0, 2.16.0]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
 
     - name: Install LilyPond
       run: |
@@ -20,7 +46,8 @@ jobs:
     - name: Create PDFs
       run: |
         touch include-settings.ily
-        if [ ${{ matrix.lilypond-version }} = 2.22.1 ]; then
+        [[ ${{ matrix.lilypond-version }} =~ ^2\.([[:digit:]]+)\.[[:digit:]]+$ ]] && lilypond_minor_version=${BASH_REMATCH[1]}
+        if (( $lilypond_minor_version > 20 )); then
           cat <<EOS >> include-settings.ily
         #(define fermataMarkup #{ \fermata #})
         EOS
