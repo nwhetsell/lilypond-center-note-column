@@ -100,11 +100,13 @@
           dot-column accidental-placement arpeggio rest))
   )))
 
-#(define centerNoteColumnOn #{ \override Staff.NoteColumn.after-line-breaking = #(center-note-column 0) #})
+#(ly:expect-warning "deprecated: missing `.' in property path Staff.NoteColumn.after-line-breaking")
+#(define centerNoteColumnOn #{ \override Staff.NoteColumn #'after-line-breaking = #(center-note-column 0) #})
 
-#(define centerNoteColumnOff #{ \revert Staff.NoteColumn.after-line-breaking #})
+#(ly:expect-warning "deprecated: missing `.' in property path NoteColumn.after-line-breaking")
+#(define centerNoteColumnOff #{ \revert Staff.NoteColumn #'after-line-breaking #})
 
 #(define onceCenterNoteColumn (define-music-function (parser location x-offs)(number?)
 #{
-        \once \override Staff.NoteColumn.after-line-breaking = #(center-note-column x-offs)
+        \once \override Staff.NoteColumn #'after-line-breaking = #(center-note-column x-offs)
 #}))
