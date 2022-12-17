@@ -20,7 +20,10 @@ jobs:
 
     - name: Create PDFs
       run: |
-        lilypond-${{ matrix.lilypond-version }}/bin/lilypond --output=test-${{ matrix.lilypond-version }} test.ly
+        cat <<EOS >> include-settings.ily
+        #(define fermataMarkup #{ \fermata #})
+        EOS
+        lilypond-${{ matrix.lilypond-version }}/bin/lilypond --define-default=include-settings=include-settings.ily --output=test-${{ matrix.lilypond-version }} test.ly
 
     - name: Archive PDFs
       uses: actions/upload-artifact@main
